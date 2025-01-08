@@ -1,14 +1,16 @@
-import { useState } from 'react'
-
+import AuthProvider from './authprovider/AuthProvider'
 import './App.css'
+import Routers from './Routers/router'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
-    <>
-      
-    </>
+    <AuthProvider>
+      <Routers>
+
+      </Routers>
+    </AuthProvider>
   )
 }
 

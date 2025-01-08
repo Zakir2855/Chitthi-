@@ -1,8 +1,11 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirebaseApp } from "../firebaseconfigs/firebase";
-
+import {  useState,memo } from "react";
+import { useNavigate } from "react-router-dom";
 function SignUp() {
+    
   const [email, setEmail] = useState("");
+  const navigate=useNavigate();
   const [password, setPassword] = useState("");
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -14,24 +17,26 @@ function SignUp() {
     e.preventDefault();
     try {
       await createUserWithEmailAndPassword(getFirebaseApp, email, password);
+     
       alert("User created successfully");
-      setTimeout(() => {
+      
         // setRoute here
-        window.location.reload();
-      }, 1000);
+        navigate("/login");
+      
     } catch (error) {
       alert(error.message);
     }
   };
-  retrun(
+  return(
     <form onSubmit={handleSubmit}>
+      <h1>SignUp</h1>
       <input 
       type="text" 
       placeholder="email" 
       onChange={handleEmail}
        required 
        />
-       
+
       <input
         type="password"
         placeholder="password"
@@ -42,4 +47,4 @@ function SignUp() {
     </form>
   );
 }
-export default SignUp;
+export default memo(SignUp);
