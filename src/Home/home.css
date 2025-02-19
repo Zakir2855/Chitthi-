@@ -1,0 +1,59 @@
+:root {
+  --primary-color: #5aa75a;
+  --background-color: #f0ebeb;
+  --font-family: "Open Sans", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.home {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-image: url('../resources/chitthi_bcgjpg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--font-family);
+}
+
+img {
+  width: 40%;
+  height: 50%;
+  border-radius: 5%;
+}
+
+.landingPage {
+  height: 60vh;
+  width: 50vw;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(251, 253, 252, 0.9);
+  color: var(--primary-color);
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.landingPage p {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}

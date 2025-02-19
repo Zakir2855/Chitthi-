@@ -4,6 +4,8 @@ import { getFirebaseApp } from "../firebaseconfigs/firebase";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { auth } from "../authprovider/AuthProvider";
+import "./signIn.css";
+import Avatar from '@mui/material/Avatar';
 
 function SignIn() {
   if (!localStorage.getItem("id")) {
@@ -35,9 +37,9 @@ function SignIn() {
       localID.push(user.uid);
       localStorage.setItem("id", JSON.stringify(localID));
       SetLogged(true);
-      console.log(isLogged, "after setting true");
+      console.log(isLogged, "after setting true in Sign In");
       navigate("/dashboard");
-      // setRoute here
+      
     } catch (err) {
       alert(err.message);
     }
@@ -47,16 +49,25 @@ function SignIn() {
     navigate("/signup");
   };
   return (
+    <div className="body_cover">
     <form onSubmit={handleSubmit}>
-      <h1>signin</h1>
-      <input type="text" placeholder="email" onChange={handleEmail} />
+      <div className="Avatar">
+      <img src="../resources/Main_logo.jpg" alt="" />
+       </div>
+       <div className="border">
+      <hr />
+       </div>
+      <h1>SignIn</h1>
+      <input type="text" placeholder="email" onChange={handleEmail} required />
 
-      <input type="password" placeholder="password" onChange={handlePass} />
+      <input type="password" placeholder="password" onChange={handlePass} required />
+      <button type="submit">Submit</button>
       <p>
         do not have an account: <button onClick={handleQuery}>SignUp</button>
       </p>
-      <button type="submit">Submit</button>
+
     </form>
+    </div>
   );
 }
 export default memo(SignIn);

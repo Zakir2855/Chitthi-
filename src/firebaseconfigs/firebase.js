@@ -1,9 +1,11 @@
-import {initializeApp} from 'firebase/app';
-import {getAuth} from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
 const firebaseConfig = {
-    apiKey:"AIzaSyBU-XbqiMWoL0zvZm40JG5GWJrwww_oLZk",
-    projectId:"chitti-91cde",
-    messagingSenderId:"804158019842",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY, 
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
 };
+
 const firebaseApp = initializeApp(firebaseConfig);
-export const getFirebaseApp = getAuth(firebaseApp);
+export const getFirebaseAuth = getAuth(firebaseApp);
