@@ -140,7 +140,7 @@ header {
 
 /* Sidebar */
 .chats-sideBar {
-  /* position: relative;
+  position: relative;
   width: 25%;
   background: #f0f0f0;
   border-right: 1px solid #ddd;
@@ -148,7 +148,7 @@ header {
   color: black;
   display: flex;
   flex-direction: column;
-  padding: 0; */
+  padding: 0;
 
   
 }
