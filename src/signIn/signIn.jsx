@@ -1,73 +1,92 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useState, memo, useEffect } from "react";
-import { getFirebaseApp } from "../firebaseconfigs/firebase";
+import { useState, memo, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
 import { auth } from "../authprovider/AuthProvider";
 import "./signIn.css";
-import Avatar from '@mui/material/Avatar';
+import { useDispatch } from "react-redux";
 
 function SignIn() {
-  if (!localStorage.getItem("id")) {
-    localStorage.setItem("id", JSON.stringify([]));
-  }
+  const dispatch=useDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
-  let { isLogged, SetLogged } = useContext(auth);
-  useEffect(() => console.log(isLogged), [isLogged]);
+  const { isLogged, SetLogged,Host } = useContext(auth);
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-  const handlePass = (e) => {
-    setPass(e.target.value);
-  };
+  // useEffect(() => {
+  //   console.log("Login status:", isLogged);
+  // }, [isLogged]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const body_data = JSON.stringify({ email, password });
+
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        getFirebaseApp,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      console.log("User ID (uid):", user.uid);
-      let localID = JSON.parse(localStorage.getItem("id"));
-      localID.push(user.uid);
-      localStorage.setItem("id", JSON.stringify(localID));
-      SetLogged(true);
-      console.log(isLogged, "after setting true in Sign In");
-      navigate("/dashboard");
-      
+      const res = await fetch(`${Host}/user/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: body_data,
+        credentials: "include"
+
+      });
+
+      const data = await res.json();
+
+      if (data.message === "User logged in successfully") {
+dispatch({type:"user_info",payload:data.user_data})
+        alert("Login successful");
+        SetLogged(true);
+        navigate("/dashboard");
+      } else {
+        alert(data.message || "Login failed");
+      }
     } catch (err) {
       alert(err.message);
     }
   };
+
   const handleQuery = (e) => {
     e.preventDefault();
     navigate("/signup");
   };
+
   return (
     <div className="body_cover">
-    <form onSubmit={handleSubmit}>
-      <div className="Avatar">
-      <img src="../resources/Main_logo.jpg" alt="" />
-       </div>
-       <div className="border">
-      <hr />
-       </div>
-      <h1>SignIn</h1>
-      <input type="text" placeholder="email" onChange={handleEmail} required />
+      <form onSubmit={handleSubmit}>
+        <div className="Avatar">
+          <img src="../resources/Main_logo.jpg" alt="Logo" />
+        </div>
+        <div className="border">
+          <hr />
+        </div>
+        <h1>Sign In</h1>
 
-      <input type="password" placeholder="password" onChange={handlePass} required />
-      <button type="submit">Submit</button>
-      <p>
-        do not have an account: <button onClick={handleQuery}>SignUp</button>
-      </p>
+        <input
+          type="text"
+          placeholder="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-    </form>
+        <input
+          type="password"
+          placeholder="password"
+          value={password}
+          onChange={(e) => setPass(e.target.value)}
+          required
+        />
+
+        <button type="submit">Submit</button>
+        <p>
+          Don’t have an account?{" "}
+          <button type="button" onClick={handleQuery}>
+            Sign Up
+          </button>
+        </p>
+      </form>
     </div>
   );
 }
+
 export default memo(SignIn);

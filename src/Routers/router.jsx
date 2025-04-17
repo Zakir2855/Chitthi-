@@ -7,6 +7,7 @@ import Dashboard from "../mainPage/dashboard";
 import { useContext, useEffect } from "react";
 import { auth } from "../authprovider/AuthProvider";
 import ChatsData from "../chatpage/chatsData";
+import Profile from "../Header/profile";
 function Routers() {
   const {isLogged,screenWidth}=useContext(auth);
   useEffect(()=>{
@@ -35,8 +36,16 @@ function Routers() {
               </PrivateRoute>
             }
           />
+        <Route
+            path="/profilePage"
+            element={
+              <PrivateRoute>
+                <Profile/>
+              </PrivateRoute>
+            }
+          />
+          
         
-          {/* {screenWidth<600 && isLogged && <Route path="/chatBoard" element={<ChatsData />} />} */}
       
       </Routes>
     </BrowserRouter>

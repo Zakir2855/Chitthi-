@@ -1,83 +1,129 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirebaseApp } from "../firebaseconfigs/firebase";
-import { useState, memo } from "react";
+import { useState, memo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import Avatar from "@mui/material/Avatar";
 import "../signIn/signIn.css";
+import { auth } from "../authprovider/AuthProvider";
 
 function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+    const { Host } = useContext(auth);
+  
   const navigate = useNavigate();
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [pic, setPic] = useState("");
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  
+  const [userDetails, setUserDetails] = useState({
+    Name: "",
+    email: "",
+    password: "",
+    confirm_password: "",
+  });
+
+  const handleDetails = (e) => {
+    setUserDetails((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
   };
-  const handlePass = (e) => {
-    setPassword(e.target.value);
-  };
-  const handleCnfmPass = (e) => {
-    setConfirmPassword(e.target.value);
-  };
-  const handleSignIn = () => {
+
+  const handleSignIn = (e) => {
+    e.preventDefault();
     navigate("/login");
   };
-  const postDetails = (pic) => {
-   
-  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const { Name, email, password, confirm_password } = userDetails;
+    
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters");
+      return;
+    }
+
+    if (password !== confirm_password) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    setIsLoading(true);
+    setError("");
+
     try {
-      await createUserWithEmailAndPassword(getFirebaseApp, email, password);
+      const response = await fetch(`${Host}/user/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userDetails),
+      });
 
-      alert("User created successfully");
-
+      const data = await response.json();
       
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
+
+      alert("Registration successful! Please sign in.");
       navigate("/login");
     } catch (error) {
-      alert(error.message);
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return (
     <div className="body_cover">
-    <form onSubmit={handleSubmit}>
-     
-      <h1>SignUp</h1>
-      <input type="text" placeholder="enter your name" required />
-      <input
-        type="text"
-        placeholder="put your email"
-        onChange={handleEmail}
-        required
-      />
+      <form onSubmit={handleSubmit}>
+        <h1>Sign Up</h1>
+        
+        {error && <div className="error-message">{error}</div>}
 
-      <input
-        type="password"
-        placeholder=" set password"
-        onChange={handlePass}
-        required
-      />
-      <input
-        type="password"
-        placeholder="confirm password"
-        onChange={(e) => handleCnfmPass(e)}
-        required
-      />
-      <input
-        type="file"
-        name="upload picture"
-        id=""
-        accept="image/*"
-        onChange={(e) => postDetails(e.target.files[0])}
-      />
-      <button type="submit">Submit</button>
-      <p>
-        Already have an account <button onClick={handleSignIn}>SignIn</button>
-      </p>
-    </form>
+        <input
+          onChange={handleDetails}
+          name="Name"
+          type="text"
+          placeholder="Full name"
+          value={userDetails.Name}
+          required
+          autoFocus
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email address"
+          value={userDetails.email}
+          onChange={handleDetails}
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Create password (min 8 characters)"
+          value={userDetails.password}
+          onChange={handleDetails}
+          required
+        />
+        <input
+          type="password"
+          name="confirm_password"
+          placeholder="Confirm password"
+          value={userDetails.confirm_password}
+          onChange={handleDetails}
+          required
+        />
+
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Creating Account..." : "Create Account"}
+        </button>
+        
+        <div className="form-footer">
+          <p>
+            Already have an account?{" "}
+            <button type="button" onClick={handleSignIn} className="text-button">
+              Sign In
+            </button>
+          </p>
+        </div>
+      </form>
     </div>
   );
 }
+
 export default memo(SignUp);

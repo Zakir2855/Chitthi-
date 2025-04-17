@@ -1,0 +1,174 @@
+* {
+    font-family: var(--font-family);
+    box-sizing: border-box;
+  }
+  
+  .body_cover {
+    height: 100vh;
+    width: 100vw;
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 1rem;
+    color: var(--primary-color);
+    background-image: url('../resources/chitthi_bcgjpg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  form {
+    opacity: 0.95;
+    background-color: white;
+    width: 100%;
+    max-width: 450px;
+    min-height: 500px;
+    margin: 0 auto;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+  }
+  
+  form:hover {
+    opacity: 1;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  }
+  
+  form h1 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.8rem;
+    color: var(--primary-color);
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    background-color: #fdecea;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  form input {
+    display: block;
+    margin: 0.75rem 0;
+    height: 3rem;
+    width: 100%;
+    padding: 0 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  form input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.1);
+  }
+  
+  form .Avatar {
+    height: 100px;
+    width: 100px;
+    margin-bottom: 1.5rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--primary-color);
+  }
+  
+  form .Avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .border {
+    width: 80%;
+    height: 3px;
+    background-color: var(--primary-color);
+    margin: 1rem 0;
+    opacity: 0.7;
+  }
+  
+  form button[type="submit"] {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    width: 100%;
+  }
+  
+  form button[type="submit"]:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3);
+  }
+  
+  form button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .form-footer {
+    width: 100%;
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .text-button {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+  }
+  
+  .text-button:hover {
+    color: darken(var(--primary-color), 10%);
+    text-decoration: none;
+  }
+  
+  @media (max-width: 768px) {
+    form {
+      padding: 2rem;
+      min-height: auto;
+    }
+    
+    .body_cover {
+      padding: 1rem;
+      align-items: flex-start;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    form {
+      padding: 1.5rem;
+      max-width: 100%;
+    }
+    
+    form h1 {
+      font-size: 1.5rem;
+    }
+    
+    form input, form button[type="submit"] {
+      height: 2.75rem;
+    }
+  }
