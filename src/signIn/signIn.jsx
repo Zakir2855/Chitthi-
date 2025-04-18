@@ -54,7 +54,7 @@ dispatch({type:"user_info",payload:data.user_data})
     <div className="body_cover">
       <form onSubmit={handleSubmit}>
         <div className="Avatar">
-          <img src="../resources/Main_logo.jpg" alt="Logo" />
+          <img src="/resources/Main_logo.jpg" alt="Logo" />
         </div>
         <div className="border">
           <hr />

@@ -56,7 +56,7 @@ const Sidebar = () => {
                 <img
                   src={
                     chat.avatar == ""
-                      ? "../resources/default-avatar-profile-icon.jpg"
+                      ? "/resources/default-avatar-profile-icon.jpg"
                       : chat.avatar
                   }
                   alt="avatar"

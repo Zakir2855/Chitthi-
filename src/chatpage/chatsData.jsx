@@ -138,7 +138,7 @@ useEffect(() => {
     <div className="chat_page">
       {!showPaint ? (
         <div className={theme ? "starter_div dark" : "starter_div"}>
-          <img src="../resources/Main_logo.jpg" alt="optional" />
+          <img src="/resources/Main_logo.jpg" alt="optional" />
           <p className="slogan">the simple, the smart</p>
           <p>
             <b>tap on a contact to start conversation</b>

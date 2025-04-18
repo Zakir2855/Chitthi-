@@ -43,7 +43,7 @@ setUsers(originalUsers.current);
   return (
     <header className="header">
       <div className="logo_mainPage">
-        <img src="../resources/Main_logo.jpg" alt="Logo_mainpage" />
+        <img src="/resources/Main_logo.jpg" alt="Logo_mainpage" />
       </div>
       <div className="search_bar">
         <input
@@ -60,7 +60,7 @@ setUsers(originalUsers.current);
       <div className="user_info">
         <button style={{width:"100%",height:"100%"}} onClick={toggleDrawer(true)}>
           {/* <Avatar sx={{ bgcolor: deepOrange[500] }}>U</Avatar> */}
-          <img style={{width:"100%",height:"100%",borderRadius:"50%"}} src={userInformation.avatar==""?"../resources/default-avatar-profile-icon.jpg":userInformation.avatar} alt="avatar" />
+          <img style={{width:"100%",height:"100%",borderRadius:"50%"}} src={userInformation.avatar==""?"/resources/default-avatar-profile-icon.jpg":userInformation.avatar} alt="avatar" />
         </button>
       </div>
       <TemporaryDrawer open={drawerOpen} toggleDrawer={toggleDrawer} />

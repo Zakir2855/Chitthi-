@@ -14,7 +14,7 @@ function Home(){
     return (
         <Container className="home">
             <div className="landingPage">
-                <img src="../resources/Main_logo.jpg" alt="Logo" />
+                <img src="/resources/Main_logo.jpg" alt="Logo" />
         <h1>Welcome to Chitthi.</h1>
         <p>To continue <button onClick={handleLogin}>Login</button>. Don't have an account <br /> <button onClick={handleSignUp}>Sign Up</button>.</p>
         </div>
