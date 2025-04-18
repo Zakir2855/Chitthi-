@@ -36,6 +36,9 @@
     "redux-thunk": "^3.1.0",
     "socket.io-client": "^4.8.1"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.6.1"
+  },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@types/react": "^18.3.18",
