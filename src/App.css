@@ -525,7 +525,7 @@ header {
   }
 
   .chat_page {
-    height: 100vh;
+    height: 90vh;
     width: 100vw;
   }
 
@@ -534,7 +534,7 @@ header {
   }
 
   .chat_content {
-    height: calc(100vh - 112px); /* header + footer = 112px */
+    height: calc(90vh - 112px); /* header + footer = 112px */
   }
   .chat_footer {
     display: flex;
