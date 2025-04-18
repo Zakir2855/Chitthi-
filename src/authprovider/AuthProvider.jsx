@@ -42,14 +42,14 @@ function AuthProvider({ children }) {
       .then((res) => res.json())
       .then((res) => {
         setUsers(res.users);
-        // console.log(res);
+        console.log(res);
       })
       .catch((err) => {
         console.error("Error fetching users:", err);
         setUsers([]); 
       }))
       
-  }, [isLogged]);
+  }, [isLogged,SetLogged]);
   //
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");

@@ -1,10 +1,13 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { useContext, useRef, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import { auth } from "../authprovider/AuthProvider";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Profile() {
+  let dispatch=useDispatch();
+  const [isAvtLdng,setAvtLdng]=useState(false);
   const avatarImageRef = useRef();
   const [imagePreview, setPreview] = useState("");
  const {  theme,Host } = useContext(auth);
@@ -15,6 +18,7 @@ export default function Profile() {
   };
   // console.log(userInformation);
   function handleDPChange() {
+    setAvtLdng(true)
     let body_data = new FormData();
     body_data.append("avatar", avatar);
     fetch(`${Host}/user/uploadAvatar/${userInformation.id}`, {
@@ -23,8 +27,16 @@ export default function Profile() {
       body: body_data,
     })
       .then((res) => res.json())
-      .then((res) => alert(res.message))
-      .catch((err) => alert(err));
+      .then((res) => {
+        dispatch({type:"reset"});
+        setPreview("");
+        setAvatar("");
+        alert(res.message);
+        dispatch({type:"user_info",payload:res.user_data});
+        setAvtLdng(false);
+        
+      })
+      .catch((err) => {alert(err);console.log(err)});
   }
   return (
     <div className={theme ? "Profile_page dark" : "Profile_page"}>
@@ -45,6 +57,7 @@ export default function Profile() {
             ></AddPhotoAlternateIcon>
           </div>
         </div>
+         
 
         <input
           id="avatar_input"
@@ -61,6 +74,12 @@ export default function Profile() {
           ref={avatarImageRef}
         />
       </div>
+       {/* loader of avatar */}
+       {isAvtLdng && (
+              <div className="message-loader">
+                <ClipLoader color="#4f46e5" size={30} />
+              </div>
+            )}
       <div className="user_info">
         <h1>{userInformation.Name}</h1>
         <h3>email: {userInformation.email}</h3>

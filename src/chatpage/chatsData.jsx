@@ -9,6 +9,7 @@ import { fetchChats } from "../store/actions/message.action";
 import { SocketContext } from "../authprovider/socketContext";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ClearIcon from "@mui/icons-material/Clear";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function ChatsData() {
   const lastMessage = useRef();
@@ -45,6 +46,7 @@ function ChatsData() {
     //
   }, [selectedUser, onlineUsers]);
   //
+  const [mssgLoading,setMssgLoading]=useState(false);
   const [input, setInput] = useState("");
   const [image, setImage] = useState("");
   const [imagePreview, setPreview] = useState("");
@@ -78,6 +80,7 @@ function ChatsData() {
 
   //multipart message sending
   function sendMessage() {
+setMssgLoading(true)
     const formData = new FormData();
     formData.append("text", input);
     formData.append("image", image);
@@ -91,6 +94,7 @@ function ChatsData() {
         socket.emit("personalMessage", selectedUser, userInformation.id);
         dispatch(fetchChats(selectedUser));
         // lastMessage.current?.scrollTo({ behavior: "smooth" });
+        setMssgLoading(false)
         setInput("");
         setImage("");
         setPreview("");
@@ -150,13 +154,13 @@ useEffect(() => {
             <h2>{chat.Name}</h2>
           </header>
          {/* ---------- */}
-         {/* // In your ChatsData component, modify the chat content section: */}
 <div
   className={theme ? "chat_content dark" : "chat_content"}
   id="chat_content"
   ref={chatContentRef}
 >
   {/* Chat messages ++++++++++++ */}
+  {mssgLoading&&<ClipLoader color="#4f46e5" style={{color:"#4f46e5",width:"100%",zIndex:"5"}} loading={mssgLoading} size={35} />}
   {messages.chatsAvailable && messages.chats.length > 0
     ? messages.chats.map((single, index) => {
         return (
@@ -184,7 +188,14 @@ useEffect(() => {
           </React.Fragment>
         );
       })
-    : "start chat"}
+    : "Start a conversation"}
+    
+            {/* loader between messages */}
+            {mssgLoading && (
+              <div className="message-loader">
+                <ClipLoader color="#4f46e5" size={30} />
+              </div>
+            )}
 </div>
           {/* ---------------------------------------------- */}
           <div className={theme ? "chat_footer dark" : "chat_footer"}>
