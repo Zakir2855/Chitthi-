@@ -12,6 +12,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ClipLoader from "react-spinners/ClipLoader";
 
 function ChatsData() {
+  
   const lastMessage = useRef();
   let MsgImage = useRef();
   const chatContentRef = useRef(null);
@@ -22,7 +23,7 @@ function ChatsData() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { screenWidth, theme, setShowPaint, showPaint, selectedUser,Host } =
+  const { screenWidth, theme, setShowPaint, showPaint, selectedUser,Host,setShowImage } =
     useContext(auth);
   const { onlineUsers } = useContext(SocketContext);
   const { socket } = useContext(SocketContext);
@@ -131,6 +132,11 @@ useEffect(() => {
     });
   }
 }, [messages]);
+//showing message image++++++++++++++++++++++
+function imageViewer(dp){
+setShowImage(dp);
+navigate("/image")
+}
 
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -174,7 +180,7 @@ useEffect(() => {
               }
             >
               {single.image ? (
-                <figure>
+                <figure onClick={()=>imageViewer(single.image)}>
                   <img src={single.image} alt="image loading" />
                   <figcaption>{single.text}</figcaption>
                 </figure>

@@ -6,6 +6,7 @@ function AuthProvider({ children }) {
   const [selectedUser, setSelectedUser] = useState(null);
   const [theme, toggleTheme] = useState(false);
   const [showPaint, setShowPaint] = useState(false);
+  const [showImage,setShowImage]=useState("");
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const handleResize = () => {
     setScreenWidth(
@@ -70,7 +71,9 @@ function AuthProvider({ children }) {
         setSelectedUser,
         users,
         setUsers,
-        Host
+        Host,
+        setShowImage,
+        showImage
       }}
     >
       {children}

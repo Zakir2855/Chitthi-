@@ -10,30 +10,39 @@ export const SocketProvider = ({ children }) => {
   const [isConnected, setIsConnected] = useState(false);
   const [onlineUsers, setOnlineUser] = useState();
 
+  
   useEffect(() => {
     if (user?.id) {
       socket.connect();
-
+  
       socket.on("connect", () => {
-        // console.log("Socket connected:", socket.id);
-        socket.emit("setup", user.id); //  sending user data to backend
+        socket.emit("setup", user.id);
         setIsConnected(true);
       });
+  
       socket.on("online", (userMap) => {
         setOnlineUser(userMap);
-        // console.log(userMap,"online users");
       });
+  
       socket.on("disconnect", () => {
-        // console.log("Socket disconnected");
         setIsConnected(false);
       });
+  
+      // Handle tab/browser close
+      const handleBeforeUnload = () => {
+        socket.disconnect();
+      };
+  
+      window.addEventListener("beforeunload", handleBeforeUnload);
+  
+      return () => {
+        window.removeEventListener("beforeunload", handleBeforeUnload);
+        socket.disconnect();
+        setIsConnected(false);
+      };
     }
-
-    return () => {
-      socket.disconnect();
-      setIsConnected(false);
-    };
-  }, [user.id, socket]);
+  }, [user?.id,socket]);
+  
 
   return (
     <SocketContext.Provider value={{ socket, isConnected,onlineUsers }}>

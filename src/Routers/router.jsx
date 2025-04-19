@@ -8,6 +8,7 @@ import { useContext, useEffect } from "react";
 import { auth } from "../authprovider/AuthProvider";
 import ChatsData from "../chatpage/chatsData";
 import Profile from "../Header/profile";
+import ImageViewer from "../image_viewer/image";
 function Routers() {
   const {isLogged,screenWidth}=useContext(auth);
   useEffect(()=>{
@@ -41,6 +42,14 @@ function Routers() {
             element={
               <PrivateRoute>
                 <Profile/>
+              </PrivateRoute>
+            }
+          />
+        <Route
+            path="/image"
+            element={
+              <PrivateRoute>
+                <ImageViewer/>
               </PrivateRoute>
             }
           />
