@@ -153,7 +153,7 @@ navigate("/image")
       ) : (
         <>
           <header className={theme ? "chat_header dark" : "chat_header"}>
-            <Avatar src={chat.avatar} sx={{ bgcolor: deepOrange[500] }}>
+            <Avatar onClick={()=>imageViewer(chat.avatar)} src={chat.avatar}  sx={{ bgcolor: deepOrange[500] }}>
               {chat.name}
             </Avatar>
             {isOnline ? <span style={{ color: "red" }}>Online</span> : ""}
@@ -226,6 +226,13 @@ navigate("/image")
               value={input}
               onChange={handleInput}
               placeholder="Type a message..."
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && (input || image)) {
+                  e.preventDefault(); 
+                  sendMessage();
+                }
+              }
+              }
             />
             <input
               id="msg_img"
@@ -233,6 +240,7 @@ navigate("/image")
               accept="image/*"
               onChange={handleImageChange}
               ref={MsgImage}
+             
             />
             <AddPhotoAlternateIcon
               id="msg_icon"

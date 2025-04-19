@@ -4,19 +4,28 @@ import { useContext, useRef, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import { auth } from "../authprovider/AuthProvider";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
+  let navigate=useNavigate();
   let dispatch=useDispatch();
   const [isAvtLdng,setAvtLdng]=useState(false);
   const avatarImageRef = useRef();
   const [imagePreview, setPreview] = useState("");
- const {  theme,Host } = useContext(auth);
+ const {  theme,Host,setShowImage } = useContext(auth);
   const [avatar, setAvatar] = useState("");
   const userInformation = useSelector((state) => state.userInfo);
   const handleAvatar = () => {
     avatarImageRef.current.click();
   };
   // console.log(userInformation);
+
+  //showing dp
+function dpShow(dp){
+setShowImage(dp);
+navigate("/image")
+}
+  //
   function handleDPChange() {
     setAvtLdng(true)
     let body_data = new FormData();
@@ -48,6 +57,9 @@ export default function Profile() {
                 ? "../resources/default-avatar-profile-icon.jpg"
                 : userInformation.avatar
             }
+            onClick={()=>dpShow( userInformation.avatar == ""
+              ? "../resources/default-avatar-profile-icon.jpg"
+              : userInformation.avatar)}
             alt="avatar"
           />
           <div className="avatar_change_cam">
