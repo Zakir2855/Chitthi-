@@ -1,8 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import Header from "../Header/header";
 import "../index.css";
 import ChatsData from "../chatpage/chatsData";
-import { Sidebar } from "../chatpage/sideBar";
+import  Sidebar from "../chatpage/sideBar";
 
 function Dashboard() {
   
@@ -28,4 +28,4 @@ function Dashboard() {
     </div>
   );
 }
-export default Dashboard;
+export default memo(Dashboard);

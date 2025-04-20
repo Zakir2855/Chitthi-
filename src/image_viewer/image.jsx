@@ -1,7 +1,7 @@
-import { useContext, useEffect } from "react";
+import { memo, useContext, useEffect } from "react";
 import { auth } from "../authprovider/AuthProvider";
 
-export default function ImageViewer(){
+ function ImageViewer(){
     const { showImage,setShowImage } = useContext(auth);
     useEffect(()=>{
 return ()=>setShowImage("");
@@ -12,3 +12,4 @@ return ()=>setShowImage("");
         </div>
     )
 }
+export default memo(ImageViewer); //

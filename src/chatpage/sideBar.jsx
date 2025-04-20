@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useEffect, useState, useCallback, memo } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../authprovider/AuthProvider";
 import { useDispatch } from "react-redux";
@@ -76,4 +76,4 @@ const Sidebar = () => {
   );
 };
 
-export{  Sidebar};
+export default memo(Sidebar);

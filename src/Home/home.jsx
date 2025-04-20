@@ -21,4 +21,4 @@ function Home(){
         </Container>
     )
 }
-export default Home;
+export default React.memo(Home);

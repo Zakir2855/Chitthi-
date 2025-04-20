@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { memo, useContext } from "react";
 import { makeStyles } from "@mui/styles";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TemporaryDrawer({ open, toggleDrawer }) {
+ function TemporaryDrawer({ open, toggleDrawer }) {
   const classes = useStyles();
   const navigate = useNavigate();
   const { SetLogged, theme, toggleTheme,Host } = useContext(auth);
@@ -103,3 +103,4 @@ export default function TemporaryDrawer({ open, toggleDrawer }) {
     </Drawer>
   );
 }
+export default memo(TemporaryDrawer)

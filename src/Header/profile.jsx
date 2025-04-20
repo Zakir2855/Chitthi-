@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
-import { useContext, useRef, useState } from "react";
+import { memo, useContext, useRef, useState } from "react";
 import ClearIcon from "@mui/icons-material/Clear";
 import { auth } from "../authprovider/AuthProvider";
 import ClipLoader from "react-spinners/ClipLoader";
 import { useNavigate } from "react-router-dom";
 
-export default function Profile() {
+ function Profile() {
   let navigate=useNavigate();
   let dispatch=useDispatch();
   const [isAvtLdng,setAvtLdng]=useState(false);
@@ -127,3 +127,4 @@ navigate("/image")
     </div>
   );
 }
+export default memo(Profile)

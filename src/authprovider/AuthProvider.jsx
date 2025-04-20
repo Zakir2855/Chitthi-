@@ -2,12 +2,12 @@ import { createContext, useState, useEffect, useMemo } from "react";
 import debouncer from "../utility/debounce";
 export const auth = createContext();
 function AuthProvider({ children }) {
-  const Host=import.meta.env.VITE_HOST
-  const [selectedUser, setSelectedUser] = useState(null);
+  const Host = import.meta.env.VITE_HOST;
+  const [selectedUser, setSelectedUser] = useState(null);//user selcted in chats
   const [theme, toggleTheme] = useState(false);
-  const [showPaint, setShowPaint] = useState(false);
-  const [showImage,setShowImage]=useState("");
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [showPaint, setShowPaint] = useState(false);//for starting banner
+  const [showImage, setShowImage] = useState("");//for viewing any image
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);//screen size
   const handleResize = () => {
     setScreenWidth(
       window.innerWidth ||
@@ -29,34 +29,35 @@ function AuthProvider({ children }) {
   // }, [screenWidth]);
   //
 
-  const [isLogged, SetLogged] = useState(false);
+  const [isLogged, SetLogged] = useState(false);//handling frontend sign in permissions
 
   //
   //
-  let [users, setUsers] = useState([]); //user storage
-  //chats getter
+  let [users, setUsers] = useState([]); //user storage for all users in contacts
+  //contacts fetching
   useEffect(() => {
-   if(isLogged)( fetch(`${Host}/mssg/users`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        setUsers(res.users);
-        console.log(res);
+    if (isLogged)
+      fetch(`${Host}/mssg/users`, {
+        method: "GET",
+        credentials: "include",
       })
-      .catch((err) => {
-        console.error("Error fetching users:", err);
-        setUsers([]); 
-      }))
-      
-  }, [isLogged,SetLogged]);
+        .then((res) => res.json())
+        .then((res) => {
+          setUsers(res.users);
+          console.log(res);
+        })
+        .catch((err) => {
+          console.error("Error fetching users:", err);
+          setUsers([]);
+        });
+  }, [isLogged, SetLogged]);
   //
+  //to match users device theme preference
   useEffect(() => {
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)");
     toggleTheme(prefersDark.matches);
   }, []);
-  
+
   return (
     <auth.Provider
       value={{
@@ -73,7 +74,7 @@ function AuthProvider({ children }) {
         setUsers,
         Host,
         setShowImage,
-        showImage
+        showImage,
       }}
     >
       {children}

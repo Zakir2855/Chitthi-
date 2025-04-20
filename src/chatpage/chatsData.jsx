@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { memo, useContext, useEffect, useRef, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 // import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { deepOrange } from "@mui/material/colors";
@@ -12,19 +12,27 @@ import ClearIcon from "@mui/icons-material/Clear";
 import ClipLoader from "react-spinners/ClipLoader";
 
 function ChatsData() {
-  
-  const lastMessage = useRef();
-  let MsgImage = useRef();
-  const chatContentRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  //
+  const {
+    screenWidth,
+    theme,
+    setShowPaint,
+    showPaint,
+    selectedUser,
+    Host,
+    setShowImage,
+  } = useContext(auth);
+  //
+  const lastMessage = useRef(); //to scroll to current message
+  let MsgImage = useRef(); //refernce of message image cz value don't work there
+  const chatContentRef = useRef(null); //for chat container
   //icon handler
   const handleIconClick = () => {
     MsgImage.current.click(); // trigger hidden input
   };
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { screenWidth, theme, setShowPaint, showPaint, selectedUser,Host,setShowImage } =
-    useContext(auth);
+  //
   const { onlineUsers } = useContext(SocketContext);
   const { socket } = useContext(SocketContext);
   const userInformation = useSelector((state) => state.userInfo);
@@ -43,19 +51,17 @@ function ChatsData() {
         setIsOnline(false);
       }
     }
-
-    //
   }, [selectedUser, onlineUsers]);
   //
-  const [mssgLoading,setMssgLoading]=useState(false);
-  const [input, setInput] = useState("");
+  const [mssgLoading, setMssgLoading] = useState(false);
+
   const [image, setImage] = useState("");
-  const [imagePreview, setPreview] = useState("");
+  const [imagePreview, setPreview] = useState(""); //to be sent mssg preview
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      const previewUrl = URL.createObjectURL(file);
+      const previewUrl = URL.createObjectURL(file); //create image url from an image file
       setPreview(previewUrl);
     }
     //
@@ -74,14 +80,15 @@ function ChatsData() {
 
   //   console.log(chat, "inchatsData");
   // }, [chat]);
-
+  //
+  const [input, setInput] = useState(""); //mssg input
   const handleInput = (e) => {
     setInput(e.target.value);
   };
 
   //multipart message sending
   function sendMessage() {
-setMssgLoading(true)
+    setMssgLoading(true);
     const formData = new FormData();
     formData.append("text", input);
     formData.append("image", image);
@@ -95,7 +102,7 @@ setMssgLoading(true)
         socket.emit("personalMessage", selectedUser, userInformation.id);
         dispatch(fetchChats(selectedUser));
         // lastMessage.current?.scrollTo({ behavior: "smooth" });
-        setMssgLoading(false)
+        setMssgLoading(false);
         setInput("");
         setImage("");
         setPreview("");
@@ -112,31 +119,39 @@ setMssgLoading(true)
     };
 
     socket.on("personally", handler);
-    // lastMessage.current?.scrollTo({ behavior: "smooth" });
-
     return () => {
       socket.off("personally", handler); // cleanup
+      setShowPaint(true);
     };
   }, [socket, selectedUser, userInformation?.id]);
 
   //
-  
-useEffect(() => {
-  if (chatContentRef.current && lastMessage.current) {
-    const container = chatContentRef.current;
-    const scrollHeight = lastMessage.current.offsetTop;
-    
-    container.scrollTo({
-      top: scrollHeight,
-      behavior: "smooth"
-    });
+  //scrolling to latest message
+  useEffect(() => {
+    if (chatContentRef.current && lastMessage.current) {
+      const container = chatContentRef.current;
+      const scrollHeight = lastMessage.current.offsetTop;
+      container.scrollTo({
+        top: scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+  //showing message image++++++++++++++++++++++
+  function imageViewer(dp) {
+    setShowImage(dp);
+    navigate("/image");
   }
-}, [messages]);
-//showing message image++++++++++++++++++++++
-function imageViewer(dp){
-setShowImage(dp);
-navigate("/image")
-}
+  //c=time stamp
+  function mssgTime(time) {
+    let date = new Date(time);
+    let min = date.toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    });
+    return min;
+  }
 
   //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -153,56 +168,70 @@ navigate("/image")
       ) : (
         <>
           <header className={theme ? "chat_header dark" : "chat_header"}>
-            <Avatar onClick={()=>imageViewer(chat.avatar)} src={chat.avatar}  sx={{ bgcolor: deepOrange[500] }}>
+            <Avatar
+              onClick={() => imageViewer(chat.avatar)}
+              src={chat.avatar}
+              sx={{ bgcolor: deepOrange[500] }}
+            >
               {chat.name}
             </Avatar>
             {isOnline ? <span style={{ color: "red" }}>Online</span> : ""}
             <h2>{chat.Name}</h2>
           </header>
-         {/* ---------- */}
-<div
-  className={theme ? "chat_content dark" : "chat_content"}
-  id="chat_content"
-  ref={chatContentRef}
->
-  {/* Chat messages ++++++++++++ */}
-  {mssgLoading&&<ClipLoader color="#4f46e5" style={{color:"#4f46e5",width:"100%",zIndex:"5"}} loading={mssgLoading} size={35} />}
-  {messages.chatsAvailable && messages.chats.length > 0
-    ? messages.chats.map((single, index) => {
-        return (
-          // using react fragment to use key here 
-            <React.Fragment key={index}>  
-             <div
-              className={
-                single.senderId == userInformation.id
-                  ? "sent"
-                  : "received"
-              }
-            >
-              {single.image ? (
-                <figure onClick={()=>imageViewer(single.image)}>
-                  <img src={single.image} alt="image loading" />
-                  <figcaption>{single.text}</figcaption>
-                </figure>
-              ) : (
-                single.text
-              )}
-            </div>
-            {index === messages.chats.length - 1 && (
-              <div ref={lastMessage} className="scroll-anchor" />
+          {/* ---------- */}
+          <div
+            className={theme ? "chat_content dark" : "chat_content"}
+            id="chat_content"
+            ref={chatContentRef}
+          >
+            {/* Chat messages ++++++++++++ */}
+            {mssgLoading && (
+              <ClipLoader
+                color="#4f46e5"
+                style={{ color: "#4f46e5", width: "100%", zIndex: "5" }}
+                loading={mssgLoading}
+                size={35}
+              />
             )}
-          </React.Fragment>
-        );
-      })
-    : "Start a conversation"}
-    
+            {messages.chatsAvailable && messages.chats.length > 0
+              ? messages.chats.map((single, index) => {
+                  return (
+                    // using react fragment to use key here
+                    <React.Fragment key={index}>
+                      <div
+                        className={
+                          single.senderId == userInformation.id
+                            ? "sent"
+                            : "received"
+                        }
+                      >
+                        {single.image ? (
+                          <figure onClick={() => imageViewer(single.image)}>
+                            <img src={single.image} alt="image loading" />
+                            <figcaption>{single.text} </figcaption>
+                          </figure>
+                        ) : (
+                          single.text
+                        )}
+                        <span style={{ fontSize: "0.5rem" ,marginLeft:"0.3rem"}}>
+                          {mssgTime(single.createdAt)}
+                        </span>
+                      </div>
+                      {index === messages.chats.length - 1 && (
+                        <div ref={lastMessage} className="scroll-anchor" />
+                      )}
+                    </React.Fragment>
+                  );
+                })
+              : "Start a conversation"}
+
             {/* loader between messages */}
             {mssgLoading && (
               <div className="message-loader">
                 <ClipLoader color="#4f46e5" size={30} />
               </div>
             )}
-</div>
+          </div>
           {/* ---------------------------------------------- */}
           <div className={theme ? "chat_footer dark" : "chat_footer"}>
             {imagePreview ? (
@@ -228,11 +257,10 @@ navigate("/image")
               placeholder="Type a message..."
               onKeyDown={(e) => {
                 if (e.key === "Enter" && (input || image)) {
-                  e.preventDefault(); 
+                  e.preventDefault();
                   sendMessage();
                 }
-              }
-              }
+              }}
             />
             <input
               id="msg_img"
@@ -240,7 +268,6 @@ navigate("/image")
               accept="image/*"
               onChange={handleImageChange}
               ref={MsgImage}
-             
             />
             <AddPhotoAlternateIcon
               id="msg_icon"
@@ -258,4 +285,4 @@ navigate("/image")
   );
 }
 
-export default ChatsData;
+export default memo(ChatsData);
