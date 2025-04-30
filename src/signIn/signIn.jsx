@@ -7,19 +7,22 @@ import { useDispatch } from "react-redux";
 function SignIn() {
   const dispatch=useDispatch();
   const navigate = useNavigate();
+  cconst [isLogging,setIsLogging]=useState(false);
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const { isLogged, SetLogged,Host } = useContext(auth);
 //temporary alert
 
 useEffect(()=>{
-  alert("Due to hosting issues response is delayed by 50 seconds for the first request.")
+  alert("Due to hosting limitaions please wait for 1 min after pressing login/create account for the first time.")
+  return ()=>setIsLogging(false);
 },[])
   // useEffect(() => {
   //   console.log("Login status:", isLogged);
   // }, [isLogged]);
 
   const handleSubmit = async (e) => {
+    setIsLogging(true)
     e.preventDefault();
     const body_data = JSON.stringify({ email, password });
 
@@ -81,7 +84,7 @@ dispatch({type:"user_info",payload:data.user_data})
           required
         />
 
-        <button type="submit">Submit</button>
+        {!isLogging&&<button type="submit">Submit</button>}
         <p>
           Don’t have an account?{" "}
           <button type="button" onClick={handleQuery}>
