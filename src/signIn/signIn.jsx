@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 function SignIn() {
   const dispatch=useDispatch();
   const navigate = useNavigate();
-  cconst [isLogging,setIsLogging]=useState(false);
+  const [isLogging,setIsLogging]=useState(false);
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const { isLogged, SetLogged,Host } = useContext(auth);
