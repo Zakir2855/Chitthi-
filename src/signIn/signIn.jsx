@@ -10,7 +10,11 @@ function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
   const { isLogged, SetLogged,Host } = useContext(auth);
+//temporary alert
 
+useEffect(()=>{
+  alert("Due to hosting issues response is delayed by 50 seconds for the first request.")
+},[])
   // useEffect(() => {
   //   console.log("Login status:", isLogged);
   // }, [isLogged]);

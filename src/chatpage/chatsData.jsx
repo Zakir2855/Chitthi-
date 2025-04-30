@@ -26,7 +26,7 @@ function ChatsData() {
   } = useContext(auth);
   //
   const lastMessage = useRef(); //to scroll to current message
-  let MsgImage = useRef(); //refernce of message image cz value don't work there
+  let MsgImage = useRef(); //refernce of message image cz value don't work as intended there
   const chatContentRef = useRef(null); //for chat container
   //icon handler
   const handleIconClick = () => {
@@ -38,6 +38,10 @@ function ChatsData() {
   const userInformation = useSelector((state) => state.userInfo);
   const chat = useSelector((state) => state.chatContainer.chatMainData);
   const messages = useSelector((state) => state.Chats);
+  const [currentMessages, setCurrentMessages] = useState([]);
+  useEffect(() => {
+    setCurrentMessages(messages.chats);
+  }, [messages]);
   //checking online user+++++++++++
   const [isOnline, setIsOnline] = useState(false);
   useEffect(() => {
@@ -98,9 +102,15 @@ function ChatsData() {
       body: formData,
     })
       .then((res) => res.json())
-      .then(() => {
-        socket.emit("personalMessage", selectedUser, userInformation.id);
-        dispatch(fetchChats(selectedUser));
+      .then((res) => {
+        socket.emit(
+          "personalMessage",
+          selectedUser,
+          userInformation.id,
+          res.data
+        );
+        // dispatch(fetchChats(selectedUser));
+        setCurrentMessages((pre) => [...pre, res.data]);
         // lastMessage.current?.scrollTo({ behavior: "smooth" });
         setMssgLoading(false);
         setInput("");
@@ -114,9 +124,12 @@ function ChatsData() {
   useEffect(() => {
     if (!socket || !userInformation?.id) return;
 
-    const handler = (fromUser) => {
-      dispatch(fetchChats(fromUser));
-    };
+    // const handler = (fromUser) => {
+    //   dispatch(fetchChats(fromUser));
+    // };
+    const handler=(fromUser,mssg)=>{
+      setCurrentMessages((pre)=>[...pre,mssg]);
+    }
 
     socket.on("personally", handler);
     return () => {
@@ -136,7 +149,7 @@ function ChatsData() {
         behavior: "smooth",
       });
     }
-  }, [messages]);
+  }, [messages,currentMessages]);
   //showing message image++++++++++++++++++++++
   function imageViewer(dp) {
     setShowImage(dp);
@@ -193,8 +206,8 @@ function ChatsData() {
                 size={35}
               />
             )}
-            {messages.chatsAvailable && messages.chats.length > 0
-              ? messages.chats.map((single, index) => {
+            {messages.chatsAvailable && currentMessages.length > 0
+              ? currentMessages.map((single, index) => {
                   return (
                     // using react fragment to use key here
                     <React.Fragment key={index}>
@@ -213,11 +226,13 @@ function ChatsData() {
                         ) : (
                           single.text
                         )}
-                        <span style={{ fontSize: "0.5rem" ,marginLeft:"0.3rem"}}>
+                        <span
+                          style={{ fontSize: "0.5rem", marginLeft: "0.3rem" }}
+                        >
                           {mssgTime(single.createdAt)}
                         </span>
                       </div>
-                      {index === messages.chats.length - 1 && (
+                      {index === currentMessages.length - 1 && (
                         <div ref={lastMessage} className="scroll-anchor" />
                       )}
                     </React.Fragment>
