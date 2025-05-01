@@ -4,12 +4,12 @@ import "../signIn/signIn.css";
 import { auth } from "../authprovider/AuthProvider";
 
 function SignUp() {
-    const { Host } = useContext(auth);
-  
+  const { Host } = useContext(auth);
+
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  
+
   const [userDetails, setUserDetails] = useState({
     Name: "",
     email: "",
@@ -32,7 +32,7 @@ function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { Name, email, password, confirm_password } = userDetails;
-    
+
     if (password.length < 8) {
       setError("Password must be at least 8 characters");
       return;
@@ -54,7 +54,7 @@ function SignUp() {
       });
 
       const data = await response.json();
-      
+
       if (!response.ok) {
         throw new Error(data.message || "Registration failed");
       }
@@ -72,7 +72,7 @@ function SignUp() {
     <div className="body_cover">
       <form onSubmit={handleSubmit}>
         <h1>Sign Up</h1>
-        
+
         {error && <div className="error-message">{error}</div>}
 
         <input
@@ -112,11 +112,15 @@ function SignUp() {
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Creating Account..." : "Create Account"}
         </button>
-        
+
         <div className="form-footer">
           <p>
             Already have an account?{" "}
-            <button type="button" onClick={handleSignIn} className="text-button">
+            <button
+              type="button"
+              onClick={handleSignIn}
+              className="text-button"
+            >
               Sign In
             </button>
           </p>

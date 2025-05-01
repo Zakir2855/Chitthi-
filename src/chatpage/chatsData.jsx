@@ -41,6 +41,7 @@ function ChatsData() {
   const [currentMessages, setCurrentMessages] = useState([]);
   useEffect(() => {
     setCurrentMessages(messages.chats);
+    console.log(messages.chats)
   }, [messages]);
   //checking online user+++++++++++
   const [isOnline, setIsOnline] = useState(false);
