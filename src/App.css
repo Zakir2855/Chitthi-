@@ -16,6 +16,11 @@ header {
   width: 120px;
   height: auto;
   max-height: 50px;
+  /* //animation */
+  animation: spinOnce 5s infinite;
+  animation-delay: 5s;
+  animation-timing-function: ease-in-out;
+  transform-origin: center;
 }
 
 /* Search Bar ******++++++++++++++++++*/
@@ -300,6 +305,11 @@ header {
   font-size: 2rem;
   font-weight: bold;
   color: #8ad28ac4;
+}
+.starter_div img{
+  width: 50%;
+  height: 50%;
+  border-radius: 5%;
 }
 
 /* Chat Header */
@@ -625,4 +635,18 @@ header {
 /* invisibleclass */
 .invisible{
   display: none;
+}
+
+
+/* animations  */
+@keyframes spinOnce {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

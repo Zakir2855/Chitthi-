@@ -78,3 +78,9 @@
   button:hover {
     transform: scale(1.5);
   }
+  @media screen and (max-width:600px) {
+    form .Avatar{
+      height: 28%;
+    width: 75%;
+    }
+  }

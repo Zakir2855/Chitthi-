@@ -5,24 +5,26 @@ import "./signIn.css";
 import { useDispatch } from "react-redux";
 
 function SignIn() {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isLogging,setIsLogging]=useState(false);
+  const [isLogging, setIsLogging] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
-  const { isLogged, SetLogged,Host } = useContext(auth);
-//temporary alert
+  const { isLogged, SetLogged, Host } = useContext(auth);
+  //temporary alert
 
-useEffect(()=>{
-  alert("Due to hosting limitaions please wait for 1 min after pressing login/create account for the first time.")
-  return ()=>setIsLogging(false);
-},[])
+  // useEffect(() => {
+  //   alert(
+  //     "Due to hosting limitaions please wait for 1 min after pressing login/create account for the first time."
+  //   );
+  //   return () => setIsLogging(false);
+  // }, []);
   // useEffect(() => {
   //   console.log("Login status:", isLogged);
   // }, [isLogged]);
 
   const handleSubmit = async (e) => {
-    setIsLogging(true)
+    setIsLogging(true);
     e.preventDefault();
     const body_data = JSON.stringify({ email, password });
 
@@ -33,14 +35,13 @@ useEffect(()=>{
           "Content-Type": "application/json",
         },
         body: body_data,
-        credentials: "include"
-
+        credentials: "include",
       });
 
       const data = await res.json();
 
       if (data.message === "User logged in successfully") {
-dispatch({type:"user_info",payload:data.user_data})
+        dispatch({ type: "user_info", payload: data.user_data });
         alert("Login successful");
         SetLogged(true);
         navigate("/dashboard");
@@ -48,6 +49,7 @@ dispatch({type:"user_info",payload:data.user_data})
         alert(data.message || "Login failed");
       }
     } catch (err) {
+      setIsLogging(false);
       alert(err.message);
     }
   };
@@ -83,8 +85,11 @@ dispatch({type:"user_info",payload:data.user_data})
           onChange={(e) => setPass(e.target.value)}
           required
         />
+        <button type="submit" disabled={isLogging}>
+          {isLogging ? "just a sec..." : "Login"}
+        </button>
 
-        {!isLogging&&<button type="submit">Submit</button>}
+        {/* {!isLogging&&<button type="submit">Submit</button>} */}
         <p>
           Don’t have an account?{" "}
           <button type="button" onClick={handleQuery}>

@@ -18,15 +18,11 @@
   font-family: var(--font-family);
 }
 
-img {
-  width: 40%;
-  height: 50%;
-  border-radius: 5%;
-}
-
 .landingPage {
-  height: 60vh;
+  height: auto;
+  min-height: 60vh;
   width: 50vw;
+  max-width: 600px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -34,26 +30,85 @@ img {
   align-items: center;
   background-color: rgba(251, 253, 252, 0.9);
   color: var(--primary-color);
-  padding: 20px;
+  padding: 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  gap: 1rem;
+}
+
+.landingPage img {
+  width: 50%;
+  height: auto;
+  border-radius: 5%;
+  margin-bottom: 1rem;
+}
+
+.landingPage h1 {
+  margin: 0;
+  font-size: 2rem;
 }
 
 .landingPage p {
-  width: 50%;
-  margin: auto;
-  text-align: center;
+  margin: 0.5rem 0;
+  width: 100%;
+  line-height: 1.6;
 }
 
-button {
+.landingPage button {
   background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 10px 20px;
+  margin: 0.5rem 0;
   border-radius: 5px;
   cursor: pointer;
   transition: transform 0.3s;
 }
 
-button:hover {
+.landingPage button:hover {
   transform: scale(1.05);
+}
+
+/* for tab*/
+@media (max-width: 768px) {
+  .landingPage {
+    width: 80vw;
+    padding: 1.5rem;
+  }
+
+  .landingPage img {
+    width: 70%;
+  }
+
+  .landingPage h1 {
+    font-size: 1.5rem;
+  }
+
+  .landingPage button {
+    padding: 8px 16px;
+  }
+}
+/* for mobile  */
+@media (max-width: 480px) {
+  .landingPage {
+    width: 90vw;
+    padding: 1rem;
+  }
+
+  .landingPage img {
+    width: 80%;
+  }
+
+  .landingPage h1 {
+    font-size: 1.2rem;
+  }
+
+  .landingPage p {
+    font-size: 0.95rem;
+  }
+
+  .landingPage button {
+    width: 80%;
+    font-size: 1rem;
+  }
 }

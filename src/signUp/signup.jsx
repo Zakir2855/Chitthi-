@@ -5,9 +5,8 @@ import { auth } from "../authprovider/AuthProvider";
 
 function SignUp() {
   const { Host } = useContext(auth);
-
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);//for latenncy in creation
   const [error, setError] = useState("");
 
   const [userDetails, setUserDetails] = useState({
