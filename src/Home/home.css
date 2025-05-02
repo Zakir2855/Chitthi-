@@ -91,7 +91,8 @@
 /* for mobile  */
 @media (max-width: 480px) {
   .landingPage {
-    width: 90vw;
+    margin: auto;
+    width: 80vw;
     padding: 1rem;
   }
 
@@ -108,7 +109,7 @@
   }
 
   .landingPage button {
-    width: 80%;
+    width: 40%;
     font-size: 1rem;
   }
 }

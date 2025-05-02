@@ -274,7 +274,7 @@ header {
   color: black;
 }
 
-/* Starting paint i call it Div +++++++++++*/
+/* Starting painting +++++++++++*/
 .starter_div {
   padding: 10px;
   display: flex;
@@ -335,7 +335,6 @@ header {
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
- 
   height: calc(100dvh - 128px); 
   max-height: calc(100dvh - 128px);
   position: relative;
@@ -539,7 +538,7 @@ header {
   }
 
   .chat_page {
-    height: 93dvh;
+    height: 99dvh;
     width: 100vw;
   }
 
@@ -548,7 +547,7 @@ header {
   }
 
   .chat_content {
-    height: calc(93dvh - 112px); 
+    height: calc(99dvh - 112px); 
     margin-bottom: 10px;
   }
   .imageViewer {

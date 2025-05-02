@@ -17,7 +17,7 @@
     overflow: hidden;
   }
   
-  form {
+  .body_cover form {
     opacity: 0.95;
     background-color: white;
     width: 40%;
@@ -33,11 +33,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  form h1 {
+  .body_cover form h1 {
     margin-top: 0;
   }
   
-  form input {
+  .body_cover form input {
     
     display: block;
     margin: auto;
@@ -49,9 +49,9 @@
     border-radius: 5px;
   }
   
-  form .Avatar {
+  .body_cover form .Avatar {
     height: 28%;
-    width: 25%;
+    width: 40%;
     margin-bottom: 2%;
     img{
       width: 100%;
@@ -65,7 +65,7 @@
     background-color: var(--primary-color);
   }
   
-  form button {
+  .body_cover form button {
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -75,12 +75,15 @@
     transition: transform 0.3s;
   }
   
-  button:hover {
+  .body_cover button:hover {
     transform: scale(1.5);
   }
   @media screen and (max-width:600px) {
-    form .Avatar{
+    .body_cover form{
+      width: 80%;
+    }
+    .body_cover form .Avatar{
       height: 28%;
-    width: 75%;
+    width: 55%;
     }
   }
