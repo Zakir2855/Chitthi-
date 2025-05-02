@@ -154,9 +154,8 @@ header {
   display: flex;
   flex-direction: column;
   padding: 0;
-
-  
 }
+
 .side_bar {
   position: relative;
   width: 100%;
@@ -180,9 +179,11 @@ header {
 
 .side-bar-content {
   flex: 1;
-  overflow-y: auto;
+  overflow-y: scroll;
   scrollbar-width: thin;
   scrollbar-color: #8ad28ac4 #f5f5d8;
+  margin-bottom: 70px;
+
 }
 
 .side-bar-content ul {
@@ -192,16 +193,6 @@ header {
 }
 
 .side-bar-content li {
-  /* height: 60px;
-  width: 100%;
-  margin-bottom: 4px;
-  padding: 0;
-  font-size: 1.2rem;
-  border: 2px solid #8ad28ac4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer; */ 
 
     height: 60px;
     width: 100%;
@@ -331,15 +322,7 @@ header {
   margin-left: 0.8rem;
 }
 
-/* Chat Content */
-/* .chat_content {
-  flex: 1;
-  padding: 12px;
-  overflow-y: auto;
-  background-color: #f0f0f0;
-  display: flex;
-  flex-direction: column;
-} */
+
 .message-loader {
   display: flex;
   justify-content: center;
@@ -351,7 +334,7 @@ header {
 .chat_content {
   flex: 1;
   padding: 12px;
-  overflow-y: auto;
+  overflow-y: scroll;
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
@@ -522,7 +505,7 @@ header {
 }
 
 /* Media Queries for handling responsiveness */
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 600px ) {
   header {
     height: 56px;
     padding: 0 1rem;
@@ -570,6 +553,8 @@ header {
 
   .chat_content {
     height: calc(93vh - 112px); /* header + footer = 112px */
+    overflow-y: scroll;
+    margin-bottom: 10px;
   }
   .imageViewer {
     width: 100vw;
