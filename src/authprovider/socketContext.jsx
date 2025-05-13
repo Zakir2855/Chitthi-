@@ -6,7 +6,7 @@ export const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
   const user = useSelector((state) => state.userInfo);
   const [isConnected, setIsConnected] = useState(false);
-  const [onlineUsers, setOnlineUser] = useState();//for online users 
+  const [onlineUsers, setOnlineUser] = useState([]);//for online users 
 //
   useEffect(() => {
     if (user?.id) {

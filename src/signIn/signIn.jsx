@@ -52,6 +52,9 @@ function SignIn() {
       setIsLogging(false);
       alert(err.message);
     }
+    finally{
+      setIsLogging(false);
+    }
   };
 
   const handleQuery = (e) => {

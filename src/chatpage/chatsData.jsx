@@ -10,6 +10,7 @@ import { SocketContext } from "../authprovider/socketContext";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import ClearIcon from "@mui/icons-material/Clear";
 import ClipLoader from "react-spinners/ClipLoader";
+import formatLastSeen from "../utility/time";
 
 function ChatsData() {
   const dispatch = useDispatch();
@@ -25,9 +26,7 @@ function ChatsData() {
     setShowImage,
   } = useContext(auth);
   //
-  const lastMessage = useRef(); //to scroll to current message
-  let MsgImage = useRef(); //refernce of message image cz value don't work as intended there
-  const chatContentRef = useRef(null); //for chat container
+    let MsgImage = useRef(); //refernce of message image cz value don't work as intended there
   //icon handler
   const handleIconClick = () => {
     MsgImage.current.click(); // trigger hidden input
@@ -141,6 +140,8 @@ function ChatsData() {
 
   //
   //scrolling to latest message
+  const lastMessage = useRef(); //to scroll to current message
+  const chatContentRef = useRef(null); //for chat container
   useEffect(() => {
     if (chatContentRef.current && lastMessage.current) {
       const container = chatContentRef.current;
@@ -189,7 +190,7 @@ function ChatsData() {
             >
               {chat.name}
             </Avatar>
-            {isOnline ? <span style={{ color: "red" }}>Online</span> : ""}
+            {isOnline ? <span style={{ color: "red" }}>Online</span> :<span style={{color:"red"}}> {formatLastSeen(chat.lastOnline)}</span>}
             <h2>{chat.Name}</h2>
           </header>
           {/* ---------- */}
