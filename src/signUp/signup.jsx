@@ -6,12 +6,14 @@ import { auth } from "../authprovider/AuthProvider";
 function SignUp() {
   const { Host } = useContext(auth);
   const navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);//for latenncy in creation
+  const [isLoading, setIsLoading] = useState(false); //for latenncy in creation
+  const [showOTP_btn, setOTP_btn] = useState(true);
   const [error, setError] = useState("");
 
   const [userDetails, setUserDetails] = useState({
     Name: "",
     email: "",
+    otp: "",
     password: "",
     confirm_password: "",
   });
@@ -22,7 +24,27 @@ function SignUp() {
       [e.target.name]: e.target.value,
     }));
   };
-
+  const otpGenerator = () => {
+    if (!userDetails.email) {
+      alert("Please provide a valid email address");
+    }
+    fetch(`${Host}/user/sendotp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({email:userDetails.email}),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        alert(res.message);
+        setOTP_btn(false);
+      });
+    regenerator();
+  };
+  const regenerator = () => {
+    setTimeout(() => {
+      setOTP_btn(true);
+    }, 1000 * 60);
+  };
   const handleSignIn = (e) => {
     e.preventDefault();
     navigate("/login");
@@ -55,6 +77,7 @@ function SignUp() {
       const data = await response.json();
 
       if (!response.ok) {
+        setError(data.message);
         throw new Error(data.message || "Registration failed");
       }
 
@@ -88,6 +111,20 @@ function SignUp() {
           name="email"
           placeholder="Email address"
           value={userDetails.email}
+          onChange={handleDetails}
+          required
+        />
+        {!showOTP_btn && <p className="error-message">regenerate otp after a minute</p>}
+        {showOTP_btn && (
+          <button type="button" onClick={otpGenerator}>
+            Generate OTP
+          </button>
+        )}
+        <input
+          placeholder="enter otp"
+          type="text"
+          name="otp"
+          value={userDetails.otp}
           onChange={handleDetails}
           required
         />

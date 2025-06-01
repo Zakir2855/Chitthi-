@@ -4,7 +4,7 @@
   }
   
   .body_cover {
-    height: 100vh;
+    height: 100dvh;
     width: 100vw;
     font-family: var(--font-family);
     margin: 0;

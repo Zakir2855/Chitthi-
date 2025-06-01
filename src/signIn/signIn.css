@@ -1,89 +1,122 @@
+* {
+  font-family: var(--font-family);
+}
 
-*{
-    font-family: var(--font-family);
-  }
-  
-  .body_cover {
-    height: 100vh;
-    width: 100vw;
-    font-family: var(--font-family);
-    margin: 0;
-    padding: 0;
-    color: var(--primary-color);
-    background-image: url('/resources/chitthi_bcgjpg.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    overflow: hidden;
-  }
-  
-  .body_cover form {
-    opacity: 0.95;
-    background-color: white;
-    width: 40%;
-    height: 60%;
-    margin: auto;
-    margin-top: 10%;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .body_cover form h1 {
-    margin-top: 0;
-  }
-  
-  .body_cover form input {
-    
-    display: block;
-    margin: auto;
-    margin-top: 1%;
-    height: 10%;
-    width: 50%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .body_cover form .Avatar {
-    height: 28%;
-    width: 40%;
-    margin-bottom: 2%;
-    img{
-      width: 100%;
-      height: 100%;
-      border-radius: 5%;
-    }
-  }
-  .border{
+.body_cover {
+  height: 100dvh;
+  width: 100vw;
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  color: var(--primary-color);
+  background-image: url("/resources/chitthi_bcgjpg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  overflow: hidden;
+}
+
+.body_cover form {
+  opacity: 0.95;
+  background-color: white;
+  width: 40%;
+  height: max-content;
+  margin: auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.body_cover form h1 {
+  margin-top: 0;
+}
+
+.body_cover form input {
+  display: block;
+  margin: auto;
+  margin-top: 1%;
+  height: 10%;
+  width: 50%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.body_cover form .Avatar {
+  height: 28%;
+  width: 40%;
+  margin-bottom: 2%;
+  img {
     width: 100%;
-    height: 5px;
-    background-color: var(--primary-color);
+    height: 100%;
+    border-radius: 5%;
   }
-  
-  .body_cover form button {
+}
+.border {
+  width: 100%;
+  height: 5px;
+  background-color: var(--primary-color);
+}
+
+/* .body_cover form button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.body_cover button:hover {
+  transform: scale(1.5);
+} */
+ form button[type="submit"] {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 0.75rem;
+    border-radius: 8px;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    margin-top: 1.5rem;
+    width: 50%;
   }
   
-  .body_cover button:hover {
-    transform: scale(1.5);
+  form button[type="submit"]:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(var(--primary-color-rgb), 0.3);
   }
-  @media screen and (max-width:600px) {
-    .body_cover form{
-      width: 80%;
-    }
-    .body_cover form .Avatar{
-      height: 28%;
+  
+  form button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+.error-message {
+  color: #e74c3c;
+  background-color: #fdecea;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+
+@media screen and (max-width: 600px) {
+  .body_cover form {
+    width: 80%;
+  }
+  .body_cover form .Avatar {
+    height: 28%;
     width: 55%;
-    }
   }
+}
